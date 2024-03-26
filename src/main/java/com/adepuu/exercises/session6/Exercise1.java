@@ -31,8 +31,7 @@ public class Exercise1 {
                     System.out.println("Average: " + average);
                 }
                 break;
-            }
-            else if (input.isEmpty() || input.isBlank()) { // Check if input is empty after trimming
+            }else if (input.isEmpty() || input.isBlank()) { // Check if input is empty after trimming
                 System.out.println("Invalid input. Please enter a valid number or 'q' to finish.");
             }else {
                 try {
@@ -44,7 +43,6 @@ public class Exercise1 {
                 }
             }
         }
-
         scanner.close();
     }
 }
