@@ -22,7 +22,7 @@ public class Exercise1 {
         System.out.println("Enter numbers to calculate average and enter 'q' to finish:");
 
         while (true) {
-            String input = scanner.next();
+            String input = scanner.nextLine().trim();
             if (input.equalsIgnoreCase("q")) {
                 if (count == 0) {
                     System.out.println("No numbers entered. Exiting...");
@@ -31,7 +31,10 @@ public class Exercise1 {
                     System.out.println("Average: " + average);
                 }
                 break;
-            } else {
+            }
+            else if (input.isEmpty() || input.isBlank()) { // Check if input is empty after trimming
+                System.out.println("Invalid input. Please enter a valid number or 'q' to finish.");
+            }else {
                 try {
                     int number = Integer.parseInt(input);
                     sum += number;
