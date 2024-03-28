@@ -1,5 +1,9 @@
 package com.adepuu.exercises.session8;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.util.UUID;
+
 public class App {
     /**
      * Manages user registration, login, and task management for the To-Do List application.
@@ -45,5 +49,91 @@ public class App {
          Connect all the functionalities with the related menu ;)
          GL HF! ;)
         */
+        UserManager userManager = new UserManager();
+        TaskManager taskManager = new TaskManager();
+        Scanner scanner = new Scanner(System.in);
+
+        boolean exit = false;
+
+        while (!exit) {
+            if (userManager.getLoggedInUser() == null) {
+                System.out.println("1. Register");
+                System.out.println("2. Login");
+                System.out.println("3. Exit");
+                System.out.print("Choose an option: ");
+
+                try {
+                    int choice = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+
+                    switch (choice) {
+                        case 1:
+                            System.out.print("Enter username: ");
+                            String regUsername = scanner.nextLine();
+                            System.out.print("Enter password: ");
+                            String regPassword = scanner.nextLine();
+                            userManager.register(regUsername, regPassword);
+                            break;
+                        case 2:
+                            System.out.print("Enter username: ");
+                            String loginUsername = scanner.nextLine();
+                            System.out.print("Enter password: ");
+                            String loginPassword = scanner.nextLine();
+                            userManager.login(loginUsername, loginPassword);
+                            break;
+                        case 3:
+                            exit = true;
+                            break;
+                        default:
+                            System.out.println("Invalid choice.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    scanner.nextLine(); // Consume invalid input
+                }
+            } else {
+                User loggedInUser = userManager.getLoggedInUser();
+                System.out.println("Logged in as: " + loggedInUser.getUsername());
+                System.out.println("1. Add Task");
+                System.out.println("2. View Tasks");
+                System.out.println("3. Delete Task");
+                System.out.println("4. Logout");
+                System.out.print("Choose an option: ");
+
+                try {
+                    int choice = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+
+                    switch (choice) {
+                        case 1:
+                            System.out.print("Enter task description: ");
+                            String taskDescription = scanner.nextLine();
+                            taskManager.addTask(loggedInUser.getUserId(), taskDescription);
+                            break;
+                        case 2:
+                            taskManager.viewTasks(loggedInUser.getUserId());
+                            break;
+                        case 3:
+                            System.out.print("Enter task ID to delete: ");
+                            try {
+                                UUID taskId = UUID.fromString(scanner.nextLine());
+                                taskManager.deleteTask(taskId);
+                            } catch (IllegalArgumentException e) {
+                                System.out.println("Invalid task ID format.");
+                            }
+                            break;
+                        case 4:
+                            userManager.logout();
+                            break;
+                        default:
+                            System.out.println("Invalid choice.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    scanner.nextLine(); // Consume invalid input
+                }
+            }
+        }
+        scanner.close();
     }
 }
