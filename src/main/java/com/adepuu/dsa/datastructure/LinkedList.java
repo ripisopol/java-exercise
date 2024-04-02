@@ -6,7 +6,7 @@ public class LinkedList {
     // Node class
     public static class Node {
         public int data;
-        Node next;
+        public Node next;
 
         Node(int data) {
             this.data = data;
