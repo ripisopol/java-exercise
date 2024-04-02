@@ -1,11 +1,11 @@
 package com.adepuu.dsa.datastructure;
 
 public class LinkedList {
-    private Node head;
+    public Node head;
 
     // Node class
-    private static class Node {
-        int data;
+    public static class Node {
+        public int data;
         Node next;
 
         Node(int data) {
